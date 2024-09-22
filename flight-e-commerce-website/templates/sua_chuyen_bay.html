@@ -1,0 +1,29 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<h2>Sửa Chuyến Bay</h2>
+<form method="post">
+    <!-- Trong file sua_chuyen_bay.html -->
+
+    <!-- Thêm đoạn mã sau vào form để hiển thị dropdown cho sân bay đi và sân bay đến -->
+    <div class="form-group">
+        <label for="san_bay_di">Sân Bay Đi:</label>
+        <select class="form-control" id="san_bay_di" name="san_bay_di" required>
+            {% for san_bay in danh_sach_san_bay %}
+            <option value="{{ san_bay[0] }}" {% if chuyen_bay[0]== san_bay[0] %}selected{% endif %}>{{ san_bay[1] }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="san_bay_den">Sân Bay Đến:</label>
+        <select class="form-control" id="san_bay_den" name="san_bay_den" required>
+            {% for san_bay in danh_sach_san_bay %}
+            <option value="{{ san_bay[0] }}" {% if chuyen_bay[1]== san_bay[0] %}selected{% endif %}>{{ san_bay[1] }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+</form>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<h2 class="text-center text-uppercase">Danh Sách Chuyến Bay</h2>
+{% if quyen == "Admin" %}
+<a href="{{ url_for('chuyen_bay_routes.them_chuyen_bay') }}" class="btn btn-success my-3">Thêm mới</a>
+{% endif %}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Mã Chuyến Bay</th>
+        <th scope="col">Sân Bay Đi</th>
+        <th scope="col">Sân Bay Đến</th>
+        <th scope="col">Thao Tác</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for chuyen_bay in chuyen_bay_list %}
+    <tr>
+        <td>{{ chuyen_bay[0] }}</td>
+        <td>{{ chuyen_bay[1] }}</td>
+        <td>{{ chuyen_bay[2] }}</td>
+        <td>
+            {% if quyen == "Admin" %}
+            <a href="{{ url_for('chuyen_bay_routes.sua_chuyen_bay', ma_chuyen_bay=chuyen_bay[0]) }}"
+               class="btn btn-warning">Sửa</a>
+            <a href="{{ url_for('chuyen_bay_routes.xoa_chuyen_bay', ma_chuyen_bay=chuyen_bay[0]) }}"
+               class="btn btn-danger">Xóa</a>
+            <a href="{{ url_for('ve_chuyen_bay_routes.ve_chuyen_bay', ma_chuyen_bay=chuyen_bay[0]) }}"
+               class="btn btn-primary">Vé chuyến bay</a>
+            {% endif %}
+
+            <a href="{{ url_for('lich_chuyen_bay_routes.lich_chuyen_bay', ma_chuyen_bay=chuyen_bay[0]) }}"
+               class="btn btn-success">Lịch chuyến bay</a>
+
+
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<h1 class="text-center text-uppercase">Bán vé chuyến bay</h1>
+<form method="post"
+      action="{{ url_for('ban_ve_routes.ban_ve', ma_ve=ve_chuyen_bay[0], ma_lich_chuyen_bay=ma_lich_chuyen_bay) }}"
+      id="payment-form">
+    <input type="hidden" name="ma_ve" value="{{ ve_chuyen_bay[0] }}">
+    <input type="hidden" name="ma_lich_chuyen_bay" value="{{ ma_lich_chuyen_bay }}">
+    <div class="form-group">
+        <label for="ho_ten">Họ tên:</label>
+        <input type="text" class="form-control" id="ho_ten" name="ho_ten" required maxlength="50">
+    </div>
+    <div class="form-group">
+        <label for="cmnd_cccd">CMND/CCCD:</label>
+        <input type="text" class="form-control" id="cmnd_cccd" name="cmnd_cccd" required maxlength="12">
+    </div>
+    <div class="form-group">
+        <label for="so_dien_thoai">Số điện thoại:</label>
+        <input type="tel" class="form-control" id="so_dien_thoai" name="so_dien_thoai" required maxlength="10">
+    </div>
+    <div class="form-group">
+        <label for="so_tien">Số tiền:</label>
+        <input type="text" class="form-control" id="so_tien" name="so_tien" value="{{ ve_chuyen_bay[3] }}" readonly>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Bán vé và thanh toán</button>
+    <a href="{{ url_for('ban_ve_routes.danh_sach_ban_ve') }}" class="btn btn-primary">Trở về</a>
+</form>
+{% endblock %}

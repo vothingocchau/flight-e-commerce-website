@@ -1,0 +1,27 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<h2 class="text-center text-uppercase">Danh Sách Vé Chuyến Bay {{ ma_chuyen_bay }}</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Mã vé</th>
+        <th scope="col">Hạng vé</th>
+        <th scope="col">Giá</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for ve in ve_chuyen_bay_list %}
+    <tr>
+        <td>{{ ve[0] }}</td>
+        <td>{{ ve[2] }}</td>
+        <td>{{ ve[3] }}</td>
+        <td>
+            <a href="{{ url_for('ve_chuyen_bay_routes.sua_ve_chuyen_bay', ma_ve=ve[0]) }}"
+               class="btn btn-warning">Sửa</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

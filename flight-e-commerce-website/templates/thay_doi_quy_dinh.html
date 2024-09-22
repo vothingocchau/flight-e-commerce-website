@@ -1,0 +1,46 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<h2 class="mb-4">Thay Đổi Quy Định</h2>
+
+
+<form method="POST" action="{{ url_for('quy_dinh_routes.thay_doi_quy_dinh') }}">
+    <div class="form-group">
+        <label for="so_luong_san_bay">Số Lượng Sân Bay:</label>
+        <input type="number" class="form-control" id="so_luong_san_bay" name="so_luong_san_bay"
+               value="{{ quy_dinh[1] }}" required>
+    </div>
+    <div class="form-group">
+        <label for="thoi_gian_bay_toi_thieu">Thời Gian Bay Tối Thiểu (phút):</label>
+        <input type="number" class="form-control" id="thoi_gian_bay_toi_thieu" name="thoi_gian_bay_toi_thieu"
+               value="{{ quy_dinh[2] }}" required>
+    </div>
+    <div class="form-group">
+        <label for="so_san_bay_trung_gian_toi_da">Số Sân Bay Trung Gian Tối Đa:</label>
+        <input type="number" class="form-control" id="so_san_bay_trung_gian_toi_da" name="so_san_bay_trung_gian_toi_da"
+               value="{{ quy_dinh[3] }}" required>
+    </div>
+    <div class="form-group">
+        <label for="thoi_gian_dung_toi_thieu">Thời Gian Dừng Tối Thiểu (phút):</label>
+        <input type="number" class="form-control" id="thoi_gian_dung_toi_thieu" name="thoi_gian_dung_toi_thieu"
+               value="{{ quy_dinh[4] }}" required>
+    </div>
+    <div class="form-group">
+        <label for="thoi_gian_dung_toi_da">Thời Gian Dừng Tối Đa (phút):</label>
+        <input type="number" class="form-control" id="thoi_gian_dung_toi_da" name="thoi_gian_dung_toi_da"
+               value="{{ quy_dinh[5] }}" required>
+    </div>
+    <div class="form-group">
+        <label for="so_gio_dat_ve_truoc">Số Giờ Đặt Vé Trước:</label>
+        <input type="number" class="form-control" id="so_gio_dat_ve_truoc" name="so_gio_dat_ve_truoc"
+               value="{{ quy_dinh[6] }}" required>
+    </div>
+    <div class="form-group">
+        <label for="so_gio_ban_ve_truoc">Số Giờ Bán Vé Trước:</label>
+        <input type="number" class="form-control" id="so_gio_ban_ve_truoc" name="so_gio_ban_ve_truoc"
+               value="{{ quy_dinh[7] }}" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+</form>
+
+{% endblock %}

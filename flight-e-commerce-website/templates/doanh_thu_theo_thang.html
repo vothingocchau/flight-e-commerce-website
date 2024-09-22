@@ -1,0 +1,130 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<h2 class="text-center mb-4">Báo Cáo Doanh Thu Theo Tháng</h2>
+
+<form id="monthForm">
+    <div class="form-group">
+        <label for="selectedMonth">Chọn tháng:</label>
+        <input type="month" id="selectedMonth" name="selectedMonth" class="form-control" required>
+    </div>
+    <button type="button" onclick="getChartData()" class="btn btn-primary">Xem Báo Cáo</button>
+    <button type="button" onclick="exportReport()" class="btn btn-success ml-2">Xuất Báo Cáo</button>
+</form>
+
+<div class="mt-4 report">
+    <canvas id="revenueChart"></canvas>
+    <canvas id="hiddenChart" style="display: none; max-width: 500px;"></canvas>
+</div>
+</div>
+
+<script>
+    function getChartData() {
+        var selectedMonth = document.getElementById('selectedMonth').value;
+        var formData = new FormData();
+        formData.append('selected_month', selectedMonth);
+
+        fetch('/doanh_thu_theo_thang', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            renderChart(data);
+        });
+    }
+
+    function renderChart(data) {
+        var canvas = document.getElementById('revenueChart');
+        var ctx = canvas.getContext('2d');
+
+        // Clear the existing chart
+        Chart.helpers.each(Chart.instances, function(instance) {
+            instance.destroy();
+        });
+
+        // Create a new chart
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Doanh Thu',
+                    data: data.data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Draw the chart on the hidden canvas
+        var hiddenCanvas = document.getElementById('hiddenChart');
+        var hiddenCtx = hiddenCanvas.getContext('2d');
+        var chart = new Chart(hiddenCtx, {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Doanh Thu',
+                    data: data.data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+    
+ function exportReport() {
+    var selectedMonth = document.getElementById('selectedMonth').value;
+    var canvas = document.getElementById('hiddenChart');
+    var chart = Chart.getChart(canvas);
+
+    // Get the base64-encoded image data
+    var chartImage = chart.toBase64Image();
+
+    // Create an image element to hold the chart image
+    var chartImageElement = document.createElement('img');
+    chartImageElement.src = chartImage;
+
+    // Create a container for the exported content
+    var exportContainer = document.createElement('div');
+
+    var titleElement = document.createElement('h2');
+    titleElement.textContent = 'Báo Cáo Doanh Thu Theo Tháng';
+    exportContainer.appendChild(titleElement);
+
+    var monthElement = document.createElement('p');
+    monthElement.textContent = 'Tháng: ' + selectedMonth;
+    exportContainer.appendChild(monthElement);
+
+    // Append the chart image element to the container
+    exportContainer.appendChild(chartImageElement);
+
+    var pdfOptions = {
+        margin: 10,
+        filename: 'BaoCao.pdf',
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    };
+
+    // Use html2pdf to export the container with the chart image
+    html2pdf(exportContainer, pdfOptions);
+}
+
+</script>
+
+{% endblock %}

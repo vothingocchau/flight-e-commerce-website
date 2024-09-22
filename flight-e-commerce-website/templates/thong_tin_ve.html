@@ -1,0 +1,71 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<!-- Display booked ticket information -->
+<h1 class="mb-4">Thông tin bán vé</h1>
+<div class="row">
+    <div class="col-md-6">
+        <p><strong>Mã đặt vé:</strong> {{ thong_tin_dat_ve[0] }}</p>
+        <p><strong>Họ tên:</strong> {{ thong_tin_dat_ve[1] }}</p>
+        <p><strong>CMND/CCCD:</strong> {{ thong_tin_dat_ve[2] }}</p>
+        <p><strong>Số điện thoại:</strong> {{ thong_tin_dat_ve[3] }}</p>
+    </div>
+</div>
+
+<h2 class="mt-4">Thông tin vé chuyến bay</h2>
+<div class="row">
+    <div class="col-md-6">
+        <p><strong>Mã chuyến bay:</strong> {{ thong_tin_ve_chuyen_bay[0] }}</p>
+        <p><strong>Chuyến bay:</strong> Từ {{ thong_tin_chuyen_bay[0] }} đến {{ thong_tin_chuyen_bay[1] }}</p>
+        <p><strong>Ngày giờ khởi hành:</strong> {{ thong_tin_chuyen_bay[3] }}</p>
+        <p><strong>Hạng vé:</strong> {{ thong_tin_ve_chuyen_bay[1] }}</p>
+        <p><strong>Giá vé:</strong> {{ thong_tin_ve_chuyen_bay[2] }}</p>
+
+    </div>
+</div>
+
+<!-- Add a button to trigger PDF export -->
+<div class="mt-4">
+    <button class="btn btn-primary" onclick="exportToPDF()">Xuất PDF</button>
+</div>
+<!-- Include the jsPDF library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+<!-- Add PDF export code to the script -->
+<script>
+    function exportToPDF() {
+        // Get booked ticket information
+        var ma_dat_ve = '{{ thong_tin_dat_ve[0] }}';
+        var ho_ten = '{{ thong_tin_dat_ve[1] }}';
+        var cmnd_cccd = '{{ thong_tin_dat_ve[2] }}';
+        var so_dien_thoai = '{{ thong_tin_dat_ve[3] }}';
+
+        // Get ticket information
+        var ma_chuyen_bay = '{{ thong_tin_ve_chuyen_bay[0] }}';
+        var chuyen_bay = '{{ thong_tin_chuyen_bay[0] }} đến {{ thong_tin_chuyen_bay[1] }}';
+        var ngay_khoi_hanh = '{{ thong_tin_chuyen_bay[3] }}';
+        var hang_ve = '{{ thong_tin_ve_chuyen_bay[1] }}';
+        var gia_ve = '{{ thong_tin_ve_chuyen_bay[2] }}';
+
+        // Create HTML content for the PDF
+        var htmlContent = `
+            <div class="container m-5">
+                <h2>Thông tin bán vé</h2>
+                <p>Mã đặt vé: ${ma_dat_ve}</p>
+                <p>Họ tên: ${ho_ten}</p>
+                <p>CMND/CCCD: ${cmnd_cccd}</p>
+                <p>Số điện thoại: ${so_dien_thoai}</p>
+
+                <h2>Thông tin vé chuyến bay</h2>
+                <p>Mã chuyến bay: ${ma_chuyen_bay}</p>
+                <p>Chuyến bay: Từ ${chuyen_bay}</p>
+                <p>Ngày giờ khởi hành: ${ngay_khoi_hanh}</p>
+                <p>Hạng vé: ${hang_ve}</p>
+                <p>Giá vé: ${gia_ve}</p>
+            </div>
+        `;
+
+        // Create PDF using html2pdf
+        html2pdf().from(htmlContent).save('booked_ticket_information.pdf');
+    }
+</script>
+{% endblock %}

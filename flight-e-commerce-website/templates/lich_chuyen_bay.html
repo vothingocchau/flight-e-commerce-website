@@ -1,0 +1,45 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+
+<h2 class="text-center text-uppercase">Danh Sách Lịch Chuyến Bay</h2>
+<!-- Hiển thị thông tin chuyến bay -->
+<h4 class="text-center">Chuyến Bay: {{ ma_chuyen_bay }}</h4>
+
+<!-- Nút thêm mới lịch chuyến bay -->
+<a href="{{ url_for('lich_chuyen_bay_routes.them_lich_chuyen_bay', ma_chuyen_bay=ma_chuyen_bay) }}"
+   class="btn btn-success my-3">Thêm mới</a>
+
+<!-- Bảng hiển thị danh sách lịch chuyến bay -->
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Mã Lịch Chuyến Bay</th>
+        <th scope="col">Ngày Giờ Khởi Hành</th>
+        <th scope="col">Thời gian bay</th>
+        <th scope="col">Số ghế hạng 1</th>
+        <th scope="col">Số ghế hạng 2</th>
+        <!-- Thêm các cột thông tin khác nếu cần -->
+        <th scope="col">Thao Tác</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for lich_chuyen_bay in lich_chuyen_bay_list %}
+    <tr>
+        <td>{{ lich_chuyen_bay[0] }}</td>
+        <td>{{ lich_chuyen_bay[1] }}</td>
+        <td>{{ lich_chuyen_bay[3] }}p</td>
+        <td>{{ lich_chuyen_bay[4] }}</td>
+        <td>{{ lich_chuyen_bay[5] }}</td>
+        <!-- Hiển thị các thông tin khác tương ứng -->
+        <td>
+            <a href="{{ url_for('lich_chuyen_bay_routes.sua_lich_chuyen_bay', ma_lich_chuyen_bay=lich_chuyen_bay[0]) }}"
+               class="btn btn-warning">Sửa</a>
+            <a href="{{ url_for('lich_chuyen_bay_routes.xoa_lich_chuyen_bay', ma_lich_chuyen_bay=lich_chuyen_bay[0]) }}"
+               class="btn btn-danger">Xóa</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
